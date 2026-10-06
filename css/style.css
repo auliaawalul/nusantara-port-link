@@ -1,0 +1,418 @@
+/* Menggunakan CSS yang Anda berikan, dengan beberapa tambahan dan perbaikan */
+:root {
+  --font-family: 'Poppins', sans-serif;
+  --accent-primary: #4f46e5; /* Indigo 600 */
+  --accent-secondary: #10b981; /* Emerald 500 */
+  --text-primary: #111827; /* Gray 900 */
+  --text-secondary: #6b7280; /* Gray 500 */
+  --main-bg: #f9fafb; /* Gray 50 */
+  --card-bg: #ffffff;
+  --border-color: #e5e7eb; /* Gray 200 */
+  --header-bg: #ffffff;
+  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+
+  --success-text: #059669; --success-bg: #d1fae5;
+  --warning-text: #d97706; --warning-bg: #fef3c7;
+  --danger-text: #dc2626; --danger-bg: #fee2e2;
+  --info-text: #2563eb; --info-bg: #dbeafe;
+}
+
+html[data-theme='dark'] {
+  --accent-primary: #818cf8; /* Indigo 400 */
+  --accent-secondary: #34d399; /* Emerald 400 */
+  --text-primary: #f9fafb; /* Gray 50 */
+  --text-secondary: #9ca3af; /* Gray 400 */
+  --main-bg: #111827; /* Gray 900 */
+  --card-bg: #1f2937; /* Gray 800 */
+  --border-color: #374151; /* Gray 700 */
+  --header-bg: #1f2937;
+  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.3), 0 4px 6px -4px rgb(0 0 0 / 0.3);
+  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.3), 0 2px 4px -2px rgb(0 0 0 / 0.3);
+
+  --success-text: #6ee7b7; --success-bg: #064e3b;
+  --warning-text: #fbbf24; --warning-bg: #78350f;
+  --danger-text: #f87171; --danger-bg: #991b1b;
+  --info-text: #60a5fa; --info-bg: #1e40af;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: var(--font-family);
+  background-color: var(--main-bg);
+  color: var(--text-primary);
+  min-height: 100vh;
+  transition: background-color 0.3s ease, color 0.3s ease;
+  overflow-x: hidden;
+}
+.hidden { display: none !important; }
+.active { display: flex !important; }
+
+/* --- AUTH PAGES (LOGIN, REGISTER, INFO) --- */
+.auth-page { display: none; flex-direction: column; justify-content: center; align-items: center; min-height: 100vh; padding: 20px; transition: opacity 0.5s ease; background-image: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('../assets/background.jpg'); background-size: cover; background-position: center; }
+.auth-page.active { display: flex; }
+
+.auth-container { background-color: var(--card-bg); padding: 40px; border-radius: 16px; box-shadow: var(--shadow-lg); width: 100%; max-width: 450px; text-align: center; position: relative; }
+.register-container { max-width: 550px; } /* Lebar form registrasi disesuaikan */
+.info-page { max-width: 800px; text-align: left; }
+
+.auth-header { margin-bottom: 2rem; }
+.auth-header .logo { width: 60px; height: 60px; margin: 0 auto 1rem auto; border-radius: 12px;}
+.auth-header h1 { font-size: 1.5rem; color: var(--accent-primary); font-weight: 700; }
+html[data-theme='dark'] .auth-header h1 { color: var(--text-primary); }
+
+.toolbar { position: absolute; top: 20px; right: 20px; display: flex; gap: 10px; }
+.toolbar-button { background: none; border: none; font-size: 1.5rem; cursor: pointer; color: var(--text-secondary); display: flex; align-items: center; gap: 5px;}
+.toolbar-button span { font-size: 0.9rem; font-weight: 600; }
+.back-btn { position: absolute; top: 20px; left: 20px; background: none; border: none; font-size: 1.5rem; color: var(--text-secondary); cursor: pointer; }
+
+.auth-container h2 { margin-bottom: 1.5rem; font-size: 1.2rem; }
+.login-title { font-size: 1.2rem; color: var(--text-secondary); }
+
+.role-selection-btn { width: 100%; padding: 14px; margin-bottom: 1rem; border-radius: 8px; border: 1px solid var(--border-color); background-color: transparent; font-size: 1rem; font-weight: 500; cursor: pointer; transition: all 0.2s ease; color: var(--text-primary); display: flex; align-items: center; justify-content: center; gap: 10px; }
+.role-selection-btn:hover { background-color: var(--accent-primary); color: white; border-color: var(--accent-primary); }
+.btn-submit { width: 100%; padding: 14px; border-radius: 8px; border: none; background-color: var(--accent-primary); color: white; font-weight: 600; cursor: pointer; transition: background-color 0.2s; margin-top: 1rem; }
+.btn-submit:hover { opacity: 0.9; }
+
+/* --- FORM STYLING BARU UNTUK LOGIN & REGISTER --- */
+.form-group {
+    position: relative;
+    margin-bottom: 1.25rem; /* Memberi jarak antar kolom */
+}
+
+.form-group input,
+.form-group textarea {
+    width: 100%;
+    padding: 14px;
+    border: 1px solid var(--border-color);
+    background-color: var(--main-bg); /* Latar belakang input sedikit beda */
+    border-radius: 8px;
+    color: var(--text-primary);
+    font-size: 1rem;
+    font-family: var(--font-family);
+    transition: all 0.2s ease-in-out;
+    
+}/* Style saat input di-klik (focus) */
+.form-group input:focus,
+.form-group textarea:focus {
+    border-color: var(--accent-primary);
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.2);
+}
+
+.form-group textarea {
+    min-height: 80px;
+    resize: vertical;
+}
+
+.form-link { color: var(--accent-primary); text-decoration: none; font-size: 0.9rem; }
+.form-switch-text { margin-top: 1.5rem; font-size: 0.9rem; }
+.auth-footer { color: #ccc; font-size: 0.8rem; margin-top: 2rem; }
+.auth-links { margin-top: 1.5rem; display: flex; justify-content: center; gap: 2rem; }
+.back-btn { position: absolute; top: 20px; left: 20px; background: none; border: none; font-size: 1.5rem; color: var(--text-secondary); cursor: pointer; }
+
+.message-box { padding: 10px; border-radius: 8px; margin-bottom: 1rem; font-size: 0.9rem; text-align: center; }
+.message-box.error { color: var(--danger-text); background-color: var(--danger-bg); }
+.message-box.success { color: var(--success-text); background-color: var(--success-bg); }
+
+* --- DASHBOARD LAYOUT & SIDEBAR --- */
+.dashboard-container { display: flex; height: 100vh; }
+.sidebar { width: 280px; height: 100%; background-color: var(--card-bg); display: flex; flex-direction: column; padding: 24px; border-right: 1px solid var(--border-color); flex-shrink: 0; }
+.sidebar-header { display: flex; align-items: center; gap: 12px; padding-bottom: 24px; margin-bottom: 24px; border-bottom: 1px solid var(--border-color); }
+.sidebar-header .logo { height: 45px; width: 45px; object-fit: contain; border-radius: 8px; }
+.sidebar-header h2 { font-size: 1.25rem; font-weight: 600; flex-grow: 1; }
+.sidebar-nav { flex-grow: 1; }
+.nav-link { display: flex; align-items: center; gap: 16px; padding: 14px 18px; margin-bottom: 8px; border-radius: 10px; text-decoration: none; color: var(--text-secondary); font-weight: 500; transition: all 0.2s ease; cursor: pointer; }
+.nav-link:hover { color: var(--accent-primary); background-color: var(--main-bg); }
+.nav-link.active { background-color: var(--accent-primary); color: #FFFFFF; font-weight: 600; box-shadow: var(--shadow-md); }
+.nav-link i { font-size: 1.5rem; }
+.sidebar-footer { padding-top: 16px; border-top: 1px solid var(--border-color); }
+
+/* --- DASHBOARD MAIN CONTENT --- */
+.main-content { width: 100%; height: 100vh; overflow-y: auto; display: flex; flex-direction: column; }
+.main-header { display: flex; align-items: center; gap: 16px; padding: 16px 32px; background-color: var(--header-bg); border-bottom: 1px solid var(--border-color); position: sticky; top: 0; z-index: 100; }
+.header-toolbar { display: flex; align-items: center; gap: 24px; margin-left: auto; }
+.profile-info-wrapper { display: flex; align-items: center; gap: 12px; cursor: pointer; }
+.profile-pic { width: 40px; height: 40px; border-radius: 50%; object-fit: cover; border: 2px solid var(--accent-primary); }
+.profile-info { text-align: right; }
+.profile-info span { font-size: 0.9rem; font-weight: 600; }
+.profile-info small { font-size: 0.75rem; color: var(--text-secondary); }
+
+/* --- CONTENT PAGE --- */
+.content-page { padding: 32px; animation: fadeIn 0.5s ease-out; }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+.content-header h1 { font-size: 2rem; font-weight: 700; margin-bottom: 8px; }
+.content-header p { color: var(--text-secondary); }
+.card { background-color: var(--card-bg); border-radius: 16px; padding: 24px; box-shadow: var(--shadow-md); }
+
+/* --- STATS & CHARTS --- */
+.stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 24px; margin-top: 24px; }
+.stat-card { display: flex; align-items: center; gap: 20px; }
+.stat-card .card-icon { width: 52px; height: 52px; border-radius: 14px; display: flex; justify-content: center; align-items: center; flex-shrink: 0; }
+.stat-card .card-icon i { font-size: 2rem; }
+.stat-card .card-info .value { font-size: 2rem; font-weight: 700; line-height: 1.2; }
+.stat-card .card-info .label { font-size: 0.9rem; color: var(--text-secondary); }
+.chart-container { position: relative; height: 350px; margin-top: 16px; }
+
+parking-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 1.5rem; /* 24px */
+}
+
+.parking-slot-card {
+    background-color: var(--card-bg);
+    border-radius: 16px;
+    padding: 1.5rem; /* 24px */
+    display: flex;
+    align-items: center;
+    gap: 1rem; /* 16px */
+    border: 1px solid var(--border-color);
+    transition: all 0.2s ease-in-out;
+}
+
+.parking-slot-card .icon-wrapper {
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.parking-slot-card .icon-wrapper i {
+    font-size: 1.75rem; /* 28px */
+}
+
+.parking-slot-card .details-wrapper {
+    display: flex;
+    flex-direction: column;
+}
+
+.parking-slot-card .slot-name {
+    font-size: 1.5rem; /* 24px */
+    font-weight: 700;
+    line-height: 1;
+    color: var(--text-primary);
+}
+
+.parking-slot-card .slot-status {
+    font-size: 0.875rem; /* 14px */
+    font-weight: 500;
+    color: var(--text-secondary);
+}
+
+/* Status: Tersedia */
+.parking-slot-card.available .icon-wrapper {
+    background-color: var(--success-bg);
+}
+.parking-slot-card.available .icon-wrapper i {
+    color: var(--success-text);
+}
+
+/* Status: Terisi */
+.parking-slot-card.occupied {
+    background-color: var(--danger-bg);
+    border-color: var(--danger-text);
+}
+.parking-slot-card.occupied .icon-wrapper {
+    background-color: rgba(255, 255, 255, 0.2);
+}
+.parking-slot-card.occupied .icon-wrapper i,
+.parking-slot-card.occupied .slot-name,
+.parking-slot-card.occupied .slot-status {
+    color: var(--danger-text);
+}
+/* Kartu Ringkasan (Sisa Slot) */
+.parking-slot-card.summary .icon-wrapper {
+    background-color: var(--info-bg);
+}
+.parking-slot-card.summary .icon-wrapper i {
+    color: var(--info-text);
+}
+/* Hapus style .parking-slot lama jika ada */
+.parking-slot {
+    display: none;
+}
+
+/* --- PETA LOGISTIK --- */
+.map-card { height: calc(100vh - 250px); }
+#map { z-index: 1; border-radius: 12px; height: 100%; }
+
+.loader { width: 48px; height: 48px; border: 5px solid var(--border-color); border-bottom-color: var(--accent-primary); border-radius: 50%; display: block; animation: rotation 1s linear infinite; }
+@keyframes rotation { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+
+/* --- RESPONSIVE MOBILE --- */
+@media (max-width: 768px) {
+    .sidebar { position: fixed; left: -280px; top: 0; z-index: 1100; transition: left 0.3s ease-in-out; }
+    .sidebar.active { left: 0; }
+    .sidebar-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.5); z-index: 1050; opacity: 0; pointer-events: none; transition: opacity 0.3s ease-in-out; }
+    .sidebar-overlay.active { opacity: 1; pointer-events: auto; }
+    .open-sidebar-btn { display: block !important; }
+}
+
+/* --- INFO PAGES (TENTANG & FAQ) --- */
+.info-page .auth-header { display: flex; align-items: center; width: 100%; margin-bottom: 1.5rem; }
+.info-page .auth-header h1 { flex-grow: 1; text-align: center; padding-right: 40px; }
+.info-content p, .info-content li { margin-bottom: 1rem; line-height: 1.7; color: var(--text-secondary); }
+.info-content h3 { margin-top: 1.5rem; margin-bottom: 0.5rem; color: var(--text-primary); }
+.faq-item { border-bottom: 1px solid var(--border-color); padding-bottom: 1rem; margin-bottom: 1rem; }
+.faq-question { font-weight: 600; cursor: pointer; display: flex; justify-content: space-between; align-items: center; }
+.faq-question::after { content: '+'; font-size: 1.5rem; transition: transform 0.2s ease; }
+.faq-item.active .faq-question::after { transform: rotate(45deg); }
+.faq-answer { max-height: 0; overflow: hidden; transition: max-height 0.3s ease-out; }
+.faq-item.active .faq-answer { padding-top: 1rem; max-height: 300px; }
+
+/* Mengatur warna placeholder */
+::placeholder {
+    color: var(--text-secondary);
+    opacity: 0.8; /* Sedikit lebih terlihat */
+}
+
+.login-options {
+    text-align: right;
+    margin-bottom: 1.5rem;
+}
+
+.btn-submit {
+    width: 100%;
+    padding: 14px;
+    border-radius: 8px;
+    border: none;
+    background-color: var(--accent-primary);
+    color: white;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    margin-top: 1rem; /* Jarak dari elemen terakhir */
+}
+
+/* --- STYLE BARU UNTUK WIDGET CUACA --- */
+.weather-widget {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 4px 8px;
+    background-color: var(--main-bg);
+    border-radius: 8px;
+    font-size: 0.85rem;
+    min-width: 120px; /* Memberi ruang agar tidak aneh saat memuat */
+}
+.weather-icon-placeholder {
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.weather-icon-placeholder img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+.weather-details {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.2;
+}
+#weather-temp {
+    font-weight: 600;
+    color: var(--text-primary);
+}
+#weather-desc {
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+    white-space: nowrap;
+}
+
+/* SPINNER UNTUK CUACA */
+.weather-loader {
+    width: 20px;
+    height: 20px;
+    border: 2px solid var(--border-color);
+    border-top-color: var(--accent-primary);
+    border-radius: 50%;
+    animation: rotation 0.8s linear infinite;
+}
+@keyframes rotation {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+/* --- STYLE BARU UNTUK AI PREDICTIVE --- */
+.recommendation-card {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem; /* 24px */
+    padding: 1.5rem;
+    border-radius: 16px;
+    border-width: 1px;
+    border-style: solid;
+}
+
+.recommendation-card .icon-wrapper {
+    flex-shrink: 0;
+    width: 64px;
+    height: 64px;
+    border-radius: 9999px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.recommendation-card .icon-wrapper i {
+    font-size: 2.5rem; /* 40px */
+}
+
+.recommendation-card h3 {
+    font-size: 1.5rem; /* 24px */
+    font-weight: 700;
+    margin-bottom: 0.25rem;
+}
+
+.recommendation-card p {
+    font-size: 1rem;
+    line-height: 1.6;
+}
+
+/* Warna untuk setiap level rekomendasi */
+.recommendation-card.safe {
+    background-color: var(--success-bg);
+    border-color: var(--success-text);
+    color: var(--success-text);
+}
+.recommendation-card.safe .icon-wrapper {
+    background-color: var(--success-text);
+    color: var(--card-bg);
+}
+
+.recommendation-card.caution {
+    background-color: var(--warning-bg);
+    border-color: var(--warning-text);
+    color: var(--warning-text);
+}
+.recommendation-card.caution .icon-wrapper {
+    background-color: var(--warning-text);
+    color: var(--card-bg);
+}
+
+.recommendation-card.danger {
+    background-color: var(--danger-bg);
+    border-color: var(--danger-text);
+    color: var(--danger-text);
+}
+.recommendation-card.danger .icon-wrapper {
+    background-color: var(--danger-text);
+    color: var(--card-bg);
+}
+
+.recommendation-card.unknown {
+    background-color: var(--border-color);
+    border-color: var(--text-secondary);
+    color: var(--text-secondary);
+}
+.recommendation-card.unknown .icon-wrapper {
+    background-color: var(--text-secondary);
+    color: var(--card-bg);
+}
+
